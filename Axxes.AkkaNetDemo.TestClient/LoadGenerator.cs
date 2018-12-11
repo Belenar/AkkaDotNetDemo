@@ -5,10 +5,10 @@ using System.Windows.Forms;
 
 namespace Axxes.AkkaNetDemo.TestClient
 {
-    public partial class Form1 : Form
+    public partial class LoadGenerator : Form
     {
         private readonly List<DeviceStatus> _deviceStatusList = new List<DeviceStatus>();
-        public Form1()
+        public LoadGenerator()
         {
             InitializeComponent();
         }

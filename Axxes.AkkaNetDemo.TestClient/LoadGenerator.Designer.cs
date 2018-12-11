@@ -1,6 +1,6 @@
 ﻿namespace Axxes.AkkaNetDemo.TestClient
 {
-    partial class Form1
+    partial class LoadGenerator
     {
         /// <summary>
         /// Required designer variable.
