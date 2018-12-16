@@ -1,51 +1,23 @@
 ﻿using System;
 using Akka.Actor;
-using Akka.Persistence;
 using Axxes.AkkaNetDemo.System.Helpers;
 using Axxes.AkkaNetDemo.System.Messages;
 
 namespace Axxes.AkkaNetDemo.System.Actors.Device
 {
-    public class QuarterlyConsumptionCalculatorActor : PersistentActor
+    public class QuarterlyConsumptionCalculatorActor : ReceiveActor
     {
-        public override string PersistenceId => $"device-quarterly-{DeviceId}";
-        public Guid DeviceId { get; }
-
-        public QuarterlyConsumptionCalculatorActor(Guid deviceId)
-        {
-            DeviceId = deviceId;
-        }
-
-        protected override bool ReceiveCommand(object message)
-        {
-            if (message is MeterReadingReceived)
-            {
-                var receivedMessage = (MeterReadingReceived) message;
-                Persist(receivedMessage, msg => HandleMeterReading(msg));
-            }
-            return true;
-        }
-
-        protected override bool ReceiveRecover(object message)
-        {
-            if (message is MeterReadingReceived)
-            {
-                HandleMeterReading((MeterReadingReceived)message);
-            }
-            if (message is SnapshotOffer)
-            {
-                var snapshot = (QuarterlySnapshot)((SnapshotOffer) message).Snapshot;
-                SetNewReferenceValues(snapshot.LastMessage, snapshot.Quarters);
-            }
-            return true;
-        }
-
         private DateTime _referenceDate;
         private decimal _referenceValue;
         private int _referenceQuarter;
         private MeterReadingReceived _lastMessage;
 
-        public void HandleMeterReading(MeterReadingReceived message)
+        public QuarterlyConsumptionCalculatorActor()
+        {
+            Receive<MeterReadingReceived>(message => Handle(message));
+        }
+
+        public void Handle(MeterReadingReceived message)
         {
             if (_lastMessage == null)
             {
@@ -88,7 +60,6 @@ namespace Axxes.AkkaNetDemo.System.Actors.Device
             }
 
             SetNewReferenceValues(message, quarters);
-            SaveSnapshot(new QuarterlySnapshot{LastMessage = message, Quarters = quarters});
         }
 
         private void DistributeMessage(QuarterCompleted quarterMessage)
@@ -111,11 +82,5 @@ namespace Axxes.AkkaNetDemo.System.Actors.Device
             _referenceQuarter = quarters.NewReferenceQuarter;
             _lastMessage = message;
         }
-    }
-
-    class QuarterlySnapshot
-    {
-        public MeterReadingReceived LastMessage { get; set; }
-        public QuarterlyConsumptionResult Quarters { get; set; }
     }
 }

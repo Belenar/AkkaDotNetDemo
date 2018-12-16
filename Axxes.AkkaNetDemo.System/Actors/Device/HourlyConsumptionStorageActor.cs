@@ -6,8 +6,13 @@ using Dapper;
 
 namespace Axxes.AkkaNetDemo.System.Actors.Device
 {
-    class HourlyConsumptionStorageActor : ReceiveActor, IHandle<HourCompleted>
+    class HourlyConsumptionStorageActor : ReceiveActor
     {
+        public HourlyConsumptionStorageActor()
+        {
+            Receive<HourCompleted>(message => Handle(message));
+        }
+
         public void Handle(HourCompleted message)
         {
             using (var connection =
