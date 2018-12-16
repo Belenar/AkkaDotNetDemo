@@ -6,10 +6,15 @@ using Axxes.AkkaNetDemo.System.Messages;
 
 namespace Axxes.AkkaNetDemo.System.Actors.Device
 {
-    class HourlyConsumptionCalculatorActor : ReceiveActor, IHandle<QuarterCompleted>
+    class HourlyConsumptionCalculatorActor : ReceiveActor
     {
         private int _referenceHour;
         private List<QuarterCompleted> _hourlyMessages;
+
+        public HourlyConsumptionCalculatorActor()
+        {
+            Receive<QuarterCompleted>(message => Handle(message));
+        }
 
         public void Handle(QuarterCompleted message)
         {

@@ -4,14 +4,11 @@ using Axxes.AkkaNetDemo.System.Messages;
 
 namespace Axxes.AkkaNetDemo.System.Actors.Device
 {
-    public class DeviceActor : ReceiveActor, 
-        IHandle<MeterReadingReceived>,
-        IHandle<QuarterCompleted>,
-        IHandle<HourCompleted>
+    public class DeviceActor : ReceiveActor
     {
-        private readonly IActorRef _quarterlyConsumptionActor;
-        private readonly IActorRef _hourlyConsumptionActor;
-        private readonly IActorRef _hourlyStorageActor;
+        private IActorRef _quarterlyConsumptionActor;
+        private IActorRef _hourlyConsumptionActor;
+        private IActorRef _hourlyStorageActor;
         private IActorRef _highConsumptionActor;
 
         public Guid DeviceId { get; }
@@ -20,6 +17,16 @@ namespace Axxes.AkkaNetDemo.System.Actors.Device
         {
             DeviceId = deviceId;
 
+            CreateChildActors();
+            AddHighConsumptionActor();
+
+            Receive<MeterReadingReceived>(message => Handle(message));
+            Receive<QuarterCompleted>(message => Handle(message));
+            Receive<HourCompleted>(message => Handle(message));
+        }
+
+        private void CreateChildActors()
+        {
             var quarterlyConsumptionActorProps = Props.Create<QuarterlyConsumptionCalculatorActor>(DeviceId);
             _quarterlyConsumptionActor = Context.ActorOf(quarterlyConsumptionActorProps);
 
@@ -28,15 +35,13 @@ namespace Axxes.AkkaNetDemo.System.Actors.Device
 
             var hourlyStorageActorProps = Props.Create<HourlyConsumptionStorageActor>();
             _hourlyStorageActor = Context.ActorOf(hourlyStorageActorProps);
-
-            AddHighConsumptionActor();
         }
 
         private void AddHighConsumptionActor()
         {
             var random = new Random();
             var quarters = random.Next(6);
-            var threshold = (decimal) random.Next(100) / 100;
+            var threshold = (decimal)random.Next(100) / 100;
 
             var highUsageProps = Props.Create<HighUsageAlertActor>(quarters, threshold);
             _highConsumptionActor = Context.ActorOf(highUsageProps);
