@@ -41,7 +41,7 @@ namespace Axxes.AkkaNetDemo.System.Actors.Device
         {
             var random = new Random();
             var quarters = random.Next(6);
-            var threshold = (decimal) random.Next(100) / 100;
+            var threshold = (decimal)random.Next(100) / 100;
 
             var highUsageProps = Props.Create<HighUsageAlertActor>(quarters, threshold);
             _highConsumptionActor = Context.ActorOf(highUsageProps);
