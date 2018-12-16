@@ -6,7 +6,7 @@ using Dapper;
 
 namespace Axxes.AkkaNetDemo.System.Actors.Device
 {
-    public class HighUsageAlertActor : ReceiveActor, IHandle<QuarterCompleted>
+    public class HighUsageAlertActor : ReceiveActor
     {
         public int NumberOfQuarters { get; }
         public decimal ThresholdValue { get; }
@@ -15,6 +15,7 @@ namespace Axxes.AkkaNetDemo.System.Actors.Device
         {
             NumberOfQuarters = numberOfQuarters;
             ThresholdValue = thresholdValue;
+            Receive<QuarterCompleted>(message => Handle(message));
         }
 
         private int _numberOfHighQuarters;
