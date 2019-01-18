@@ -1,23 +1,25 @@
 ﻿using System;
 using Akka.Actor;
+using Akka.Persistence;
 using Axxes.AkkaNetDemo.System.Helpers;
 using Axxes.AkkaNetDemo.System.Messages;
 
 namespace Axxes.AkkaNetDemo.System.Actors.Device
 {
-    public class QuarterlyConsumptionCalculatorActor : ReceiveActor
+    public class QuarterlyConsumptionCalculatorActor : PersistentActor
     {
+        public Guid DeviceId { get; }
         private DateTime _referenceDate;
         private decimal _referenceValue;
         private int _referenceQuarter;
         private MeterReadingReceived _lastMessage;
 
-        public QuarterlyConsumptionCalculatorActor()
+        public QuarterlyConsumptionCalculatorActor(Guid deviceId)
         {
-            Receive<MeterReadingReceived>(message => Handle(message));
+            DeviceId = deviceId;
         }
 
-        public void Handle(MeterReadingReceived message)
+        public void HandleMeterReading(MeterReadingReceived message)
         {
             if (_lastMessage == null)
             {
@@ -60,6 +62,11 @@ namespace Axxes.AkkaNetDemo.System.Actors.Device
             }
 
             SetNewReferenceValues(message, quarters);
+            SaveSnapshot(new QuartelySnapshot
+            {
+                LastMessage = message,
+                Quarters = quarters
+            });
         }
 
         private void DistributeMessage(QuarterCompleted quarterMessage)
@@ -82,5 +89,38 @@ namespace Axxes.AkkaNetDemo.System.Actors.Device
             _referenceQuarter = quarters.NewReferenceQuarter;
             _lastMessage = message;
         }
+
+        protected override bool ReceiveRecover(object message)
+        {
+            if (message is MeterReadingReceived mrMessage)
+            {
+                HandleMeterReading(mrMessage);
+            }
+
+            if (message is SnapshotOffer snapshotOffer)
+            {
+                var snapshot = (QuartelySnapshot) snapshotOffer.Snapshot;
+                SetNewReferenceValues(snapshot.LastMessage, snapshot.Quarters);
+            }
+            return true;
+        }
+
+        protected override bool ReceiveCommand(object message)
+        {
+            if (message is MeterReadingReceived mrMessage)
+            {
+                Persist(mrMessage, msg => HandleMeterReading(msg));
+            }
+            return true;
+        }
+
+        public override string PersistenceId
+            => $"device-quarterly-{DeviceId}";
+    }
+
+    public class QuartelySnapshot
+    {
+        public MeterReadingReceived LastMessage { get; set; }
+        public QuarterlyConsumptionResult Quarters { get; set; }
     }
 }

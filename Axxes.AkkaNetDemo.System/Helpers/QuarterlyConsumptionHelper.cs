@@ -55,7 +55,7 @@ namespace Axxes.AkkaNetDemo.System.Helpers
         public MeterReadingReceived CurrentMessage { get; set; }
     }
 
-    class QuarterlyConsumptionResult
+    public class QuarterlyConsumptionResult
     {
         public List<Tuple<DateTime, decimal>> Quarters { get; set; } = new List<Tuple<DateTime, decimal>>();
         public DateTime NewReferenceDate { get; set; }
