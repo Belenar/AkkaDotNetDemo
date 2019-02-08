@@ -1,11 +1,13 @@
-USE [AkkaNetResults]
-GO
-
-/****** Object:  Table [dbo].[HourlyConsumption]    Script Date: 14/02/2018 0:00:10 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE DATABASE AkkaNetResults;
+CREATE DATABASE AkkaPersistence;
+
+USE [AkkaNetResults]
 GO
 
 CREATE TABLE [dbo].[HourlyConsumption](
