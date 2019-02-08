@@ -4,8 +4,11 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE DATABASE AkkaNetResults;
-CREATE DATABASE AkkaPersistence;
+CREATE DATABASE AkkaNetResults
+GO
+
+CREATE DATABASE AkkaPersistence
+GO
 
 USE [AkkaNetResults]
 GO
@@ -25,5 +28,3 @@ CREATE TABLE [dbo].[HighConsumptionAlerts](
 	[Duration] [int] NOT NULL
 ) ON [PRIMARY]
 GO
-
-
