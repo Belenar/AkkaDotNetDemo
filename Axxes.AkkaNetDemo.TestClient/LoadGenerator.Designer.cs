@@ -38,9 +38,10 @@
             // btnStart
             // 
             this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStart.Location = new System.Drawing.Point(303, 12);
+            this.btnStart.Location = new System.Drawing.Point(606, 23);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 23);
+            this.btnStart.Size = new System.Drawing.Size(150, 44);
             this.btnStart.TabIndex = 0;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -49,23 +50,27 @@
             // lstProgress
             // 
             this.lstProgress.FormattingEnabled = true;
-            this.lstProgress.Location = new System.Drawing.Point(12, 44);
+            this.lstProgress.ItemHeight = 25;
+            this.lstProgress.Location = new System.Drawing.Point(24, 85);
+            this.lstProgress.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lstProgress.Name = "lstProgress";
-            this.lstProgress.Size = new System.Drawing.Size(366, 342);
+            this.lstProgress.Size = new System.Drawing.Size(728, 654);
             this.lstProgress.TabIndex = 1;
             // 
             // lblNoDevices
             // 
             this.lblNoDevices.AutoSize = true;
-            this.lblNoDevices.Location = new System.Drawing.Point(14, 17);
+            this.lblNoDevices.Location = new System.Drawing.Point(28, 33);
+            this.lblNoDevices.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblNoDevices.Name = "lblNoDevices";
-            this.lblNoDevices.Size = new System.Drawing.Size(149, 13);
+            this.lblNoDevices.Size = new System.Drawing.Size(301, 25);
             this.lblNoDevices.TabIndex = 2;
             this.lblNoDevices.Text = "Number of devices to simulate";
             // 
             // txtNoDevices
             // 
-            this.txtNoDevices.Location = new System.Drawing.Point(169, 15);
+            this.txtNoDevices.Location = new System.Drawing.Point(338, 29);
+            this.txtNoDevices.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.txtNoDevices.Maximum = new decimal(new int[] {
             200,
             0,
@@ -77,24 +82,25 @@
             0,
             0});
             this.txtNoDevices.Name = "txtNoDevices";
-            this.txtNoDevices.Size = new System.Drawing.Size(120, 20);
+            this.txtNoDevices.Size = new System.Drawing.Size(240, 31);
             this.txtNoDevices.TabIndex = 3;
             this.txtNoDevices.Value = new decimal(new int[] {
-            20,
+            10,
             0,
             0,
             0});
             // 
-            // Form1
+            // LoadGenerator
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(390, 393);
+            this.ClientSize = new System.Drawing.Size(780, 756);
             this.Controls.Add(this.txtNoDevices);
             this.Controls.Add(this.lblNoDevices);
             this.Controls.Add(this.lstProgress);
             this.Controls.Add(this.btnStart);
-            this.Name = "Form1";
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Name = "LoadGenerator";
             this.Text = "Axxes Meter Reading Load Generator";
             ((System.ComponentModel.ISupportInitialize)(this.txtNoDevices)).EndInit();
             this.ResumeLayout(false);
