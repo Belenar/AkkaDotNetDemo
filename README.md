@@ -40,11 +40,11 @@ Now all there's left to do is open the solution and see if it runs without excep
 If all is well, you should have 2 windows that opened up. Let's check if everything is OK:
    1. There should be a webserver running, if should look like this (without errors):  
    ![running web server](https://github.com/Belenar/AkkaDotNetDemo/blob/master/img/webserver_window.png)
-   2. There should also be a load generator (WinForms app):
+   2. There should also be a load generator (WinForms app):  
    ![running load generator](https://github.com/Belenar/AkkaDotNetDemo/blob/master/img/load_gen_window.png)
-   3. When you press the start button on the load generator, requests should start coming in on the web server:
+   3. When you press the start button on the load generator, requests should start coming in on the web server:  
    ![load on web server](https://github.com/Belenar/AkkaDotNetDemo/blob/master/img/webserver_load.png)
-   4. And the UI of the load generator should update as well:
+   4. And the UI of the load generator should update as well:  
    ![load on load generator](https://github.com/Belenar/AkkaDotNetDemo/blob/master/img/load_gen_load.png)
 
 ## Things to investigate if something doesn't go as planned
